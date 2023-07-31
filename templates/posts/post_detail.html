@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+{% block content %}
+<div class="card mx-auto" style="width: 35rem;"xmlns="http://www.w3.org/1999/html"></div>
+        <img src="{{ post.cover.url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.get_category_display }} - {{ post.created }}</h6>
+            <p class="card-text">{{ post.content }}</p>
+            < <a href="{% url 'post-update' post.id %}" class="btn btn-warning">Редактировать</a>
+            <form action="{% url 'post-delete' post.id %}" method="get">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Удалить</button>
+            </form>
+        </div>
+    </div><br>
+{% endblock %}
