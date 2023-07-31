@@ -19,7 +19,13 @@
     </div><br>
 
     {% endfor %}
-
+    {% if user.is_authenticated %}
+    <br>
+    <form action="{% url 'post-create' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Создать запись</button>
+    </form>
+    {% endif %}
     <br>
     <a href="{% url 'post-create' %}">Создать запись</a>
     <a href="{% url 'contacts-page' %}">Контакты</a></br>
