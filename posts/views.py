@@ -1,8 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
-
-from posts.models import Post
+from posts.forms import CommentForm
+from posts.models import Post, Comment
 from django.views import generic
 
 
@@ -19,6 +18,20 @@ class PostDetailView(generic.DetailView):
     model = Post
     template_name = "posts/post_detail.html"
     context_object_name = "post"
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["form"] = CommentForm()
+    #     return context
+
+    def post(self, request, pk):
+        form = CommentForm(request.POST)
+        post = Post.objects.get(pk=pk)
+        if form.is_valid():
+            pre_saved_comment = form.save(commit=False)
+            pre_saved_comment.post = post
+            pre_saved_comment.save()
+        return redirect("post-detail", pk)
 
 
 # Class Create

@@ -1,21 +1,54 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}
-{{ post.title }}
+    {{ post.title }}
 {% endblock %}
 
 {% block content %}
-<div class="card mx-auto" style="width: 35rem;"xmlns="http://www.w3.org/1999/html"></div>
+    <div class="card mx-auto" style="width: 35rem;" xmlns="http://www.w3.org/1999/html">
         <img src="{{ post.cover.url }}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.get_category_display }} - {{ post.created }}</h6>
-            <p class="card-text">{{ post.content }}</p>
-            < <a href="{% url 'post-update' post.id %}" class="btn btn-warning">Редактировать</a>
-            <form action="{% url 'post-delete' post.id %}" method="get">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Удалить</button>
-            </form>
         </div>
     </div><br>
+
+    <form action="" method="post" class="mx-auto" style="width: 35rem;">
+    {% csrf_token %}
+        {{ form|crispy }}<br>
+    <button type="submit" class="btn btn-primary">Оставить комментарий</button>
+
+    </form>
+<hr>
+{#    <form action="" method="post">#}
+{#        {% csrf_token %}#}
+{#        <div class="mb-3 mx-auto" style="width: 35rem;">#}
+{#            <label for="exampleInputEmail1" class="form-label">Имя</label>#}
+{#            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name">#}
+{##}
+{#        </div>#}
+{#        <div class="mb-3 mx-auto" style="width: 35rem;">#}
+{#            <label for="exampleInputPassword1" class="form-label">Текст</label>#}
+{#            <input type="text" class="form-control" id="exampleInputPassword1" name="text"><br>#}
+{#            <button type="submit" class="btn btn-primary">Оставить комментарий</button>#}
+{#        </div>#}
+{#        <hr>#}
+{##}
+{#    </form>#}
+
+
+
+    {% for comment in post.post_comment.all %}
+        <div class="card mx-auto" style="width: 35rem;">
+            <div class="card-header">
+                {{ comment.created }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ comment.name }}</h5>
+                <p class="card-text">{{ comment.text }}</p>
+
+            </div>
+        </div><br>
+        <hr>
+    {% endfor %}
 {% endblock %}
