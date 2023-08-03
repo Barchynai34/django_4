@@ -1,11 +1,11 @@
-from django.shortcuts import render,redirect
-from django.urls import reverse_lazy
-from posts.forms import CommentForm
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpRequest
 from posts.models import Post, Comment
 from django.views import generic
+from django.urls import reverse_lazy
+from posts.forms import CommentForm, PostForm
 
 
-# Class Retrieve LIST
 class IndexView(generic.ListView):
     # model = Post
     queryset = Post.objects.filter(status=True)
@@ -13,16 +13,11 @@ class IndexView(generic.ListView):
     context_object_name = "posts"
 
 
-# Class Retrieve DETAIL
 class PostDetailView(generic.DetailView):
     model = Post
     template_name = "posts/post_detail.html"
     context_object_name = "post"
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["form"] = CommentForm()
-    #     return context
+    extra_context = {"form": CommentForm()}
 
     def post(self, request, pk):
         form = CommentForm(request.POST)
@@ -34,32 +29,27 @@ class PostDetailView(generic.DetailView):
         return redirect("post-detail", pk)
 
 
-# Class Create
 class PostCreateView(generic.CreateView):
     model = Post
     template_name = "posts/post_create.html"
-    fields = ["title", "content", "status", "category", "cover"]
-    success_url = reverse_lazy("index-page")
+    form_class = PostForm
+    success_url = reverse_lazy("index-bek")
 
 
-# Class DELETE
 class PostDeleteView(generic.DeleteView):
     model = Post
-    success_url = reverse_lazy("index-page")
+    success_url = reverse_lazy("index-bek")
 
 
-# Class Update
 class PostUpdateView(generic.UpdateView):
     model = Post
     template_name = "posts/post_update.html"
-    fields = ["title", "content", "status", "category", "cover"]
-    success_url = reverse_lazy("index-page")
+    form_class = PostForm
+    success_url = reverse_lazy("index-bek")
 
 
-# CRUD = Create, Read(Retrieve), Update, Delete
-
-# Retrieve
-def index_view(request):
+request = HttpRequest()
+def index_bek(request):
     posts = Post.objects.all()
     context = {
         "title": "Главная страница",
@@ -68,39 +58,26 @@ def index_view(request):
     return render(request, "posts/index.html", context=context)
 
 
-# Retrieve
-def post_detail(request, pk):
-    post = Post.objects.get(pk=pk)
-    return render(request, "posts/post_detail.html", {"post": post})
-
-
 def contacts(request):
     context = {
-        "title": "Контакты"
+        "title": "Контакты",
     }
     return render(request, "posts/contacts.html", context)
 
 
 def about(request):
     context = {
-        "title": "О нас"
+        "title": "О нас",
+        "content": "Анекдот: колобок моется,моется... Вышел из душа и говорит: 'Блиин я голову забыл помыть'"
     }
     return render(request, "posts/about.html", context)
 
 
-# def post_delete(request, pk):
-#     if request.method == "POST":
-#         post = Post.objects.get(pk=pk)
-#         post.delete()
-#         return reverse_lazy("index-page")
-#     return render(request, "posts/post_delete.html")
-
-
 def post_update(request, pk):
-    return render(request, "posts/post_update.html")
+    post = Post.objects.get(pk=pk)
+    return render(request, "posts/post_update.html", {"post": post})
 
-#
-# def post_create(request):
-#     if request.method == "POST":
-#         post = Post.objects.create(title=request.POST.get("zagolovok"))
-#     return render(request, "posts/post_create.html")
+
+def post_detail(request, pk):
+    post = Post.objects.get(pk=pk)
+    return render(request, "posts/post_detail.html", {"post": post})

@@ -1,12 +1,17 @@
+
 {% extends 'base.html' %}
 
 {% block title %}
-{{ title }}
+Про меня
 {% endblock %}
 
 {% block content %}
-<h1>Привет из about</h1>
-    <br>
-    <a href="{% url 'contacts-page' %}">Контакты</a><br>
-    <a href="{% url 'index-page' %}">Главная</a><br>
+<h1>я backend разработчик</h1>
+<a class="nav-link active" aria-current="page" href="{% url 'index-page' %}">Главная</a>
+<a href="{% url 'contacts-page' %}">Контакты</a></br>
+{% if page_content %}
+    <p>{{ page_content }}</p>
+{% else %}
+    <p>Страница находится в разработке.</p>
+{% endif %}
 {% endblock %}

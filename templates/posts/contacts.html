@@ -1,9 +1,12 @@
+
 {% extends 'base.html' %}
+
 {% block title %}
-{{title}}
+Контакты
 {% endblock %}
 
 {% block content %}
-    Привет из contacts
+<h1>Приветствую в contacts: 0 755 168 204</h1>
+<a class="nav-link active" aria-current="page" href="{% url 'index-page' %}">Главная</a>
+<a href="{% url 'about-page' %}">Про меня</a></br
 {% endblock %}
-
