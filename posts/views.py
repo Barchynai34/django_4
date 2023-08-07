@@ -34,23 +34,23 @@ class PostCreateView(LoginRequiredMixin,generic.CreateView):
     model = Post
     template_name = "posts/post_create.html"
     form_class = PostForm
-    success_url = reverse_lazy("index-bek")
+    success_url = reverse_lazy("index-page")
 
 
 class PostDeleteView(generic.DeleteView):
     model = Post
-    success_url = reverse_lazy("index-bek")
+    success_url = reverse_lazy("index-page")
 
 
-class PostUpdateView(LoginRequiredMixin,generic.UpdateView):
+class PostUpdateView(generic.UpdateView):
     model = Post
     template_name = "posts/post_update.html"
     form_class = PostForm
-    success_url = reverse_lazy("index-bek")
+    success_url = reverse_lazy("index-page")
 
 
 request = HttpRequest()
-def index_bek(request):
+def index_page(request):
     posts = Post.objects.all()
     context = {
         "title": "Главная страница",

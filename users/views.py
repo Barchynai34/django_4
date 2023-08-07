@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from users.forms import UserRegistrationForm
+from django.views import View
 
 def register(request):
     if request.method == "POST":
@@ -13,3 +14,19 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, "registration/register.html", {"form": user_form})
+
+
+class UserRegisterView(View):
+    template_name = "registration/register.html"
+
+    def get(self, request):
+        form = UserRegistrationForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+        
+            return redirect('success_registration')
+
+        return render(request, self.template_name, {'form': form})
