@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Здравствуйте. Пожалуйста, войдите.
+{% endblock %}
+
+{% block content %}
+{#    {% if form.errors %}#}
+{#        <p>Ваши логин и пароль не совпадают. Попробуйте еще раз</p>#}
+{#    {% endif %}#}
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>У вас недостачно прав для просмотра этой страницы. Пожалуйста, войдите с учетной записью, которая имеет
+                доступ</p>
+        {% else %}
+            <p>Пожалуйста, войдите, чтобы увидеть эту страницу</p>
+        {% endif %}
+    {% endif %}
+    <form action="{% url 'login' %}" method="post" class="mx-auto" style="width: 35rem;">
+        {% csrf_token %}
+        {{ form|crispy }}<br>
+{#        <table>#}
+{#            <tr>#}
+{#                <td>{{ form.username.label_tag }}</td>#}
+{#                <td>{{ form.username }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>{{ form.password.label_tag }}</td>#}
+{#                <td>{{ form.password }}</td>#}
+{#            </tr>#}
+{#        </table>#}
+        <button type="submit" class="btn btn-success">Войти</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+    <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+{% endblock %}

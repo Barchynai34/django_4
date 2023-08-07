@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from posts.models import Post, Comment
@@ -29,7 +30,7 @@ class PostDetailView(generic.DetailView):
         return redirect("post-detail", pk)
 
 
-class PostCreateView(generic.CreateView):
+class PostCreateView(LoginRequiredMixin,generic.CreateView):
     model = Post
     template_name = "posts/post_create.html"
     form_class = PostForm
@@ -41,7 +42,7 @@ class PostDeleteView(generic.DeleteView):
     success_url = reverse_lazy("index-bek")
 
 
-class PostUpdateView(generic.UpdateView):
+class PostUpdateView(LoginRequiredMixin,generic.UpdateView):
     model = Post
     template_name = "posts/post_update.html"
     form_class = PostForm
