@@ -27,6 +27,6 @@ class UserRegisterView(View):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
         
-            return redirect('success_registration')
+            return redirect("registration")
 
         return render(request, self.template_name, {'form': form})
