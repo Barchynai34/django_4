@@ -1,6 +1,18 @@
 from django.shortcuts import render, redirect
 from users.forms import UserRegistrationForm
 from django.views import View
+from rest_framework import generics
+from .models import GeekUser
+from .serializers import UserSerializer
+
+class UserList(generics.ListCreateAPIView):
+    queryset = GeekUser.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = GeekUser.objects.all()
+    serializer_class = UserSerializer
+
 
 def register(request):
     if request.method == "POST":

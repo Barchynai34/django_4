@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "posts",
     "users",
+    'rest_framework',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2'
     "examples",
     'crispy_forms',
     'crispy_bootstrap4',
@@ -144,3 +148,13 @@ LOGIN_URL = "/users/login/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 AUTH_USER_MODELS = "users.GeekUser"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
+    ),
+}
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "Ваш_Client_ID"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "Ваш_Client_Secret"
