@@ -20,4 +20,4 @@ class GeekUserManager(BaseUserManager):
             raise ValueError("Суперюзер должен иметь is_staff=True")
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Суперюзер должен иметь is_superuser=True")
-        return self.create_superuser(email, password, **extra_fields)
+        # return self.create_superuser(email, password, **extra_fields)

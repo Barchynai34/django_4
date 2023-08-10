@@ -9,7 +9,7 @@ class UserList(generics.ListCreateAPIView):
     queryset = GeekUser.objects.all()
     serializer_class = UserSerializer
 
-class UserDetails(generics.RetrieveUpdateDestroyAPIView):
+class UserDetails(generics.RetrieveAPIView):
     queryset = GeekUser.objects.all()
     serializer_class = UserSerializer
 
